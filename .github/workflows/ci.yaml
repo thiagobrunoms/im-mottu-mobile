@@ -9,7 +9,7 @@ jobs:
   test:
     name: Run flutter tests
     timeout-minutes: 5
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./apps/mottu_marvel
