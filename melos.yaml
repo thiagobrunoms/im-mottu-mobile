@@ -21,6 +21,6 @@ scripts:
     description: Run Flutter tests for a specific package in this project. With 10 concurrent processes.
   unit_test:
     run: |
-      melos exec --scope="app" -- flutter test
+      melos exec --scope="apps/**" -- flutter test
       melos exec --scope="packages/**" -- flutter test
     description: Run all Flutter tests in this project.

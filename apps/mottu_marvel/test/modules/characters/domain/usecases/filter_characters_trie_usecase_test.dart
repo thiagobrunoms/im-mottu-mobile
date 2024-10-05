@@ -72,7 +72,7 @@ void main() {
     events: MarvelEventsMock(),
   );
   final initialList = [character3, character1, character2, character4, character5];
-  group('HealthCareSearchFilter', () {
+  group('CharactersSearchFilter', () {
     late FilterCharactersTrieUsecase filterCharactersUsecase;
 
     setUp(() {
@@ -83,7 +83,7 @@ void main() {
       var currentTrieLetter = trieService.rootLetter;
 
       for (int i = 0; i < word.length; i++) {
-        final currentLetter = word[i];
+        final currentLetter = word[i].toLowerCase();
         expect(
           currentTrieLetter.children.containsKey(currentLetter),
           true,
