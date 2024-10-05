@@ -1,4 +1,4 @@
-name: Sora App CI
+name: Mottu App CI
 on:
   workflow_dispatch:
 
