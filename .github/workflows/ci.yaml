@@ -30,4 +30,4 @@ jobs:
       - run: dart pub global activate melos
       - run: melos bs
       - name: flutter test
-        run: melos run unit_test
+        run: melos run fast_test:selective_unit_test
