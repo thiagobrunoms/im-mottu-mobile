@@ -11,14 +11,15 @@ class MarvelSeriesMock extends Mock implements MarvelSeries {}
 class MarvelEventsMock extends Mock implements MarvelEvents {}
 
 void main() {
+  const thumbnail = MarvelThumbnail(
+    path: 'path',
+    extension: 'extension',
+  );
   final character1 = MarvelCharacter(
     id: 1,
     name: '3-D Man',
     description: '',
-    thumbnail: MarvelThumbnail(
-      path: 'path',
-      extension: 'extension',
-    ),
+    thumbnail: thumbnail,
     comics: MarvelComicsMock(),
     series: MarvelSeriesMock(),
     events: MarvelEventsMock(),
@@ -27,10 +28,7 @@ void main() {
     id: 2,
     name: 'A-Bomb (HAS)',
     description: '',
-    thumbnail: MarvelThumbnail(
-      path: 'path',
-      extension: 'extension',
-    ),
+    thumbnail: thumbnail,
     comics: MarvelComicsMock(),
     series: MarvelSeriesMock(),
     events: MarvelEventsMock(),
@@ -39,10 +37,7 @@ void main() {
     id: 3,
     name: 'Abyss (Age of Apocalypse)',
     description: '',
-    thumbnail: MarvelThumbnail(
-      path: 'path',
-      extension: 'extension',
-    ),
+    thumbnail: thumbnail,
     comics: MarvelComicsMock(),
     series: MarvelSeriesMock(),
     events: MarvelEventsMock(),
@@ -51,10 +46,7 @@ void main() {
     id: 3,
     name: 'Batman',
     description: '',
-    thumbnail: MarvelThumbnail(
-      path: 'path',
-      extension: 'extension',
-    ),
+    thumbnail: thumbnail,
     comics: MarvelComicsMock(),
     series: MarvelSeriesMock(),
     events: MarvelEventsMock(),
@@ -63,10 +55,7 @@ void main() {
     id: 3,
     name: 'Casa',
     description: '',
-    thumbnail: MarvelThumbnail(
-      path: 'path',
-      extension: 'extension',
-    ),
+    thumbnail: thumbnail,
     comics: MarvelComicsMock(),
     series: MarvelSeriesMock(),
     events: MarvelEventsMock(),
