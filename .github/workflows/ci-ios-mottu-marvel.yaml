@@ -9,7 +9,7 @@ jobs:
     with:
       working-directory: apps/muvr_app_driver
       env: staging
-      build-env: Release-staging
+      # build-env: Release-staging
     secrets:
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       ENV_KEYS: ${{ secrets.ENV_MOTTU_MARVEL_STAGING }}

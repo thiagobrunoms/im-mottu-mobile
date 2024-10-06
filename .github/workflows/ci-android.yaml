@@ -1,4 +1,4 @@
-name: Mottu App CI
+name: Mottu Android App CI
 on:
   workflow_call:
     inputs:
