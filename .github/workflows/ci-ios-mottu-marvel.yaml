@@ -1,4 +1,4 @@
-name: Driver's iOS Staging
+name: Mottu Marvel - iOS Staging
 
 on:
   workflow_dispatch:

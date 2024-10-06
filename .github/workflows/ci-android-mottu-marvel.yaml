@@ -1,4 +1,4 @@
-name: Mottu Marvel's Android Staging
+name: Mottu Marvel - Android Staging
 
 on:
   workflow_dispatch:
