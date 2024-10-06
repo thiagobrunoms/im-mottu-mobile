@@ -13,6 +13,7 @@ jobs:
     defaults:
       run:
         working-directory: ./apps/mottu_marvel
+
     steps:
       - uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -26,8 +27,19 @@ jobs:
         with:
           flutter-version: ${{env.FLUTTER_VERSION}}
           channel: "stable"
+
+      - name: Install dotenv CLI
+        run: npm install -g dotenv-cli --force
+
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.ENV }}" > .env
+
       - run: flutter pub get
+
       - run: dart pub global activate melos
+
       - run: melos bs
+
       - name: flutter test
         run: melos run fast_test:selective_unit_test
