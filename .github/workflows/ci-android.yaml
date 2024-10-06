@@ -56,7 +56,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.22.0"
+          flutter-version: ${{env.FLUTTER_VERSION}}
           channel: "stable"
 
       - name: Install dotenv CLI
@@ -103,7 +103,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{env.FLUTTER_VERSION}}1
+          flutter-version: ${{env.FLUTTER_VERSION}}
           channel: "stable"
 
       - name: Install dotenv CLI
