@@ -123,7 +123,7 @@ jobs:
         working-directory: ${{ inputs.working-directory }}/ios
 
       - name: Build iOS version
-        run: dotenv -e .env -- flutter build ios --release --flavor ${{ inputs.env }} --target=lib/main.dart
+        run: flutter build ios --release --flavor ${{ inputs.env }} --target=lib/main.dart
 
       - name: Build xArchive with Certificates
         run: |
