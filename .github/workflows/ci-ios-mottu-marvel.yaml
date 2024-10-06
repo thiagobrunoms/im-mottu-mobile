@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-prod:
-    uses: ./.github/workflows/ios.yml
+    uses: ./.github/workflows/ios.yaml
     with:
       working-directory: apps/muvr_app_driver
       env: staging
