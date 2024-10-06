@@ -1,0 +1,23 @@
+name: Driver's Android Staging
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-staging:
+    uses: ./.github/workflows/ci-android.yml
+    with:
+      working-directory: apps/mottu_marvel
+      env: staging
+      release-directory: apps/mottu_marvel/build/app/outputs/bundle/stagingRelease
+    secrets:
+      ENV_KEYS: ${{ secrets.ENV_MOTTU_MARVEL_STAGING }}
+      SIGNING_KEY_BASE64: ${{ secrets.RELEASE_KEYSTORE_MOTTU_MARVEL_APP }}
+      KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS_MOTTU_MARVEL_APP }}
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD_MOTTU_MARVEL_APP }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD_MOTTU_MARVEL_APP }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

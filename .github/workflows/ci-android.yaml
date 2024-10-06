@@ -1,0 +1,122 @@
+name: Mottu App CI
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: "The working directory for the Mottu app"
+        required: true
+        type: string
+      env:
+        description: "Which env to build the app (e.g.: prod or staging)"
+        required: true
+        type: string
+      release-directory:
+        description: "The app's directory where the file was built"
+        required: true
+        type: string
+
+    secrets:
+      ENV_KEYS:
+        description: "The .env file content"
+        required: true
+      SIGNING_KEY_BASE64:
+        description: "Base64 encoded signing key"
+        required: true
+      KEYSTORE_ALIAS:
+        description: "Key alias of the signing keystore"
+        required: true
+      KEYSTORE_PASSWORD:
+        description: "Keystore password of the signing keystore"
+        required: true
+      KEY_PASSWORD:
+        description: "Key password of the signing keystore"
+        required: true
+      SSH_PRIVATE_KEY:
+        description: "SSH private key for accessing the repository"
+        required: true
+
+env:
+  FLUTTER_VERSION: "3.22.0"
+
+jobs:
+  build-default-android:
+    name: Mottu Android App
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v3
+        with:
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{env.FLUTTER_VERSION}}1
+          channel: "stable"
+
+      - name: Install dotenv CLI
+        run: npm install -g dotenv-cli --force
+
+      - name: Create .env file
+        run: echo "${{ inputs.ENV_KEYS }}" > .env
+
+      - run: flutter pub get
+
+      - run: dart pub global activate melos
+
+      - run: melos install
+
+      - name: Build APPBUNDLE
+        run: dotenv -e .env -- flutter build appbundle --release --flavor ${{ inputs.env }} --target=lib/main.dart
+
+      - name: Sign APPBUNDLE
+        id: sign
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: ${{ inputs.release-directory }}
+          signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
+          alias: ${{ secrets.KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+  test:
+    name: Flutter tests
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+
+    steps:
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v3
+        with:
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{env.FLUTTER_VERSION}}1
+          channel: "stable"
+
+      - name: Install dotenv CLI
+        run: npm install -g dotenv-cli --force
+
+      - name: Create .env file
+        run: echo "${{ secrets.ENV_KEYS }}" > .env
+
+      - run: flutter pub get
+
+      - run: dart pub global activate melos
+
+      - run: melos install
+
+      - name: flutter test
+        run: melos run fast_test:selective_unit_test
