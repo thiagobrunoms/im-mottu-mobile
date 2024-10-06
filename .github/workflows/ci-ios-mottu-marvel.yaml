@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-prod:
-    uses: ./.github/workflows/ios.yaml
+  build-staging:
+    uses: ./.github/workflows/ci-ios.yaml
     with:
       working-directory: apps/muvr_app_driver
       env: staging
