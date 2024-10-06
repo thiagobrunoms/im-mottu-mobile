@@ -1,0 +1,20 @@
+name: Driver's iOS Staging
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-prod:
+    uses: ./.github/workflows/ios.yml
+    with:
+      working-directory: apps/muvr_app_driver
+      env: staging
+      build-env: Release-staging
+    secrets:
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      ENV_KEYS: ${{ secrets.ENV_MOTTU_MARVEL_STAGING }}
+      BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+      BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+      P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+      PROVISIONING_PROFILE_UUID: ${{ secrets.PROVISIONING_PROFILE_UUID }}
+      IOS_CERTIFICATE_CODE_SIGNING: ${{ secrets.IOS_CERTIFICATE_CODE_SIGNING }}
