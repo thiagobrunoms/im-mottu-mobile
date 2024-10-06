@@ -128,3 +128,40 @@ jobs:
       - name: Build xArchive with Certificates
         run: |
           xcodebuild -workspace ios/Runner.xcworkspace -scheme ${{ inputs.env }} -configuration ${{ inputs.env }} DEVELOPMENT_TEAM=M8Y94KLW95 -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE="${{ secrets.PROVISIONING_PROFILE_UUID }}" clean archive CODE_SIGN_IDENTITY="${{ secrets.IOS_CERTIFICATE_CODE_SIGNING }}"
+
+  test:
+    name: Flutter tests
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+
+    steps:
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v3
+        with:
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{env.FLUTTER_VERSION}}
+          channel: "stable"
+
+      - name: Install dotenv CLI
+        run: npm install -g dotenv-cli --force
+
+      - name: Create .env file
+        run: echo "${{ secrets.ENV_KEYS }}" > .env
+
+      - run: flutter pub get
+
+      - run: dart pub global activate melos
+
+      - run: melos install
+
+      - name: flutter test
+        run: melos run fast_test:selective_unit_test
