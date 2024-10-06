@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-staging:
-    uses: ./.github/workflows/ci-android.yml
+    uses: ./.github/workflows/ci-android.yaml
     with:
       working-directory: apps/mottu_marvel
       env: staging
