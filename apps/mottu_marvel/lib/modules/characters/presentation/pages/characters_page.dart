@@ -40,7 +40,7 @@ class _CharactersPageState extends State<CharactersPage> {
             }
 
             if (controller.isError.value) {
-              return const SliverToBoxAdapter(child: MottuBody1Text.bold('Algo de errado aconteceu! :('));
+              return const _ErrorState();
             }
 
             if (controller.filteredCharactersList.isEmpty) {
@@ -48,62 +48,14 @@ class _CharactersPageState extends State<CharactersPage> {
                 return const CharacterPageProgressIndicator();
               }
 
-              return SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const MottuBody1Text.medium('Não há resultados locais. Deseja fazer uma busca remota?'),
-                    const SizedBox(height: 10.0),
-                    ElevatedButton(
-                        onPressed: controller.filterCharactersRemotely, child: const MottuBody1Text.bold('SIM'))
-                  ],
-                ),
-              );
+              return const _NoResultsFound();
             }
 
-            final List<Widget> charactersList = controller.filteredCharactersList
-                .map((eachCharacter) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
-                      child: MarvelCharacterItem(
-                        marvelCharacter: eachCharacter,
-                      ),
-                    ))
-                .toList();
-
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => charactersList[index],
-                childCount: charactersList.length,
-              ),
-            );
+            return const _CharactersList();
           },
         ),
-        Obx(
-          () {
-            if (controller.isFetching.value && controller.charactersList.isNotEmpty) {
-              return const CharacterPageProgressIndicator();
-            }
-
-            return const SliverToBoxAdapter(child: SizedBox.shrink());
-          },
-        ),
-        Obx(
-          () {
-            if (!controller.isFetching.value && controller.searchTextFieldValue.isNotEmpty) {
-              return SliverToBoxAdapter(
-                child: ElevatedButton(
-                  onPressed: controller.clearSearchField,
-                  child: const MottuBody1Text.bold('Limpar busca'),
-                ),
-              );
-            }
-
-            return const SliverToBoxAdapter(
-              child: SizedBox.shrink(),
-            );
-          },
-        ),
+        const _PaginationLoading(),
+        const _CleanUpSearch(),
       ],
     );
   }
@@ -128,6 +80,103 @@ class _FilterCharactersTextField extends StatelessWidget {
         ),
         onChanged: controller.filterCharacters,
       ),
+    );
+  }
+}
+
+class _ErrorState extends StatelessWidget {
+  const _ErrorState({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SliverToBoxAdapter(child: MottuBody1Text.bold('Algo de errado aconteceu! :('));
+  }
+}
+
+class _NoResultsFound extends StatelessWidget {
+  const _NoResultsFound({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<CharactersPageController>();
+
+    return SliverFillRemaining(
+      hasScrollBody: false,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const MottuBody1Text.medium('Não há resultados locais. Deseja fazer uma busca remota?'),
+          const SizedBox(height: 10.0),
+          ElevatedButton(onPressed: controller.filterCharactersRemotely, child: const MottuBody1Text.bold('SIM'))
+        ],
+      ),
+    );
+  }
+}
+
+class _CharactersList extends StatelessWidget {
+  const _CharactersList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<CharactersPageController>();
+    final List<Widget> charactersList = controller.filteredCharactersList
+        .map((eachCharacter) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
+              child: MarvelCharacterItem(
+                marvelCharacter: eachCharacter,
+              ),
+            ))
+        .toList();
+
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) => charactersList[index],
+        childCount: charactersList.length,
+      ),
+    );
+  }
+}
+
+class _PaginationLoading extends StatelessWidget {
+  const _PaginationLoading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<CharactersPageController>();
+    return Obx(
+      () {
+        if (controller.isFetching.value && controller.charactersList.isNotEmpty) {
+          return const CharacterPageProgressIndicator();
+        }
+
+        return const SliverToBoxAdapter(child: SizedBox.shrink());
+      },
+    );
+  }
+}
+
+class _CleanUpSearch extends StatelessWidget {
+  const _CleanUpSearch({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<CharactersPageController>();
+    return Obx(
+      () {
+        if (!controller.isFetching.value && controller.searchTextFieldValue.isNotEmpty) {
+          return SliverToBoxAdapter(
+            child: ElevatedButton(
+              onPressed: controller.clearSearchField,
+              child: const MottuBody1Text.bold('Limpar busca'),
+            ),
+          );
+        }
+
+        return const SliverToBoxAdapter(
+          child: SizedBox.shrink(),
+        );
+      },
     );
   }
 }
