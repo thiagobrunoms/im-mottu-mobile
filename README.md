@@ -36,7 +36,7 @@ Para executar este aplicativo, ative o `melos` através do comando `dart pub glo
 
 **Executando testes unitários**
 
-- No melos.yaml, há um script chamada fast_test. Execute `melos unit_test`. Na raíz deste projeto, execute `melos unit_test` para executar todos os testes presentes no projeto;
+- No melos.yaml, há um script chamada unit_test. Execute `melos unit_test`. Na raíz deste projeto, execute `melos unit_test` para executar todos os testes presentes no projeto;
 
 - A segunda opção é realizar os testes individuais nas respecticas pastas `/test` de cada package e do app. Há testes no `/test` do projeto `/apps/mottu_marvel` e alguns testes em `packages` individuais. Execute `flutter test nome_test.dart` para executar um teste individual.
 
