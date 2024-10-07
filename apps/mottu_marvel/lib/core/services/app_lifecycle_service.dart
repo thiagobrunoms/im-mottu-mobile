@@ -1,29 +1,30 @@
+import 'package:common/common.dart';
 import 'package:persistence/persistence.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AppLifecycleService extends GetxService with WidgetsBindingObserver {
+class AppLifecycleService extends GetxService {
+  late final AppLifecycleHandler _appLifecycleHandler;
+
   @override
   void onInit() {
     super.onInit();
 
-    WidgetsBinding.instance.addObserver(this);
+    _appLifecycleHandler = AppLifecycleHandler(
+      onAppClosing: _handleAppClosing,
+    );
+
+    _appLifecycleHandler.startObserving();
   }
 
   @override
   void onClose() {
-    WidgetsBinding.instance.removeObserver(this);
+    _appLifecycleHandler.stopObserving();
     super.onClose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-
-    if (state == AppLifecycleState.detached) {
-      print('App is closing - removing cache...');
-      final persistence = Get.find<KeyValuePersistence>();
-      persistence.deleteAll();
-    }
+  void _handleAppClosing() {
+    print('App is closing - removing cache...');
+    final persistence = Get.find<KeyValuePersistence>();
+    persistence.deleteAll();
   }
 }
