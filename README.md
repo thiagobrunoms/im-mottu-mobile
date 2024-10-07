@@ -8,9 +8,13 @@ Este projeto foi construído como parte do processo de entrevistas para a Mottu.
 
 2. [A versão Android](https://www.loom.com/share/f4f5e74aa20c414586ed9b13241da64c), com o requisito de obter informações sobre a conectividade usando Kotlin e Event Channel;
 
-3. Todas as atividades realizadas podem ser verificadas nesta [issue](https://github.com/thiagobrunoms/im-mottu-mobile/issues/20). Para mais detalhes, verifique as demais issues e milestone para analisar a forma que as atividades foram organizadas;
+3. O crashlytics foi configurado apenas para a flavor staging, como ilustrado a seguir:
 
-4. A última versão deste projeto está nas branches `main`e `level_3`.
+![image](https://github.com/user-attachments/assets/f086b83a-721a-40df-b6a8-6ede9e4b4fa1)
+
+4. Todas as atividades realizadas podem ser verificadas nesta [issue](https://github.com/thiagobrunoms/im-mottu-mobile/issues/20). Para mais detalhes, verifique as demais issues e milestone para analisar a forma que as atividades foram organizadas;
+
+5. A última versão deste projeto está nas branches `main`e `level_3`.
 
 ## Solução baseada em package
 
