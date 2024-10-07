@@ -55,7 +55,7 @@ class HiveKeyValuePersistence<T> implements KeyValuePersistence {
       }
       return data as T?;
     } catch (e) {
-      analytics.logError(e, properties: {'operation': 'save using hive'});
+      analytics.logError(e, properties: {'operation': 'read using hive'});
       return null;
     }
   }
@@ -67,7 +67,7 @@ class HiveKeyValuePersistence<T> implements KeyValuePersistence {
       await box.delete(key);
       return true;
     } catch (e) {
-      analytics.logError(e, properties: {'operation': 'save using hive'});
+      analytics.logError(e, properties: {'operation': 'delete using hive'});
       return false;
     }
   }
@@ -79,7 +79,7 @@ class HiveKeyValuePersistence<T> implements KeyValuePersistence {
       box.clear();
       box.close();
     } catch (e) {
-      analytics.logError(e, properties: {'operation': 'save using hive'});
+      analytics.logError(e, properties: {'operation': 'deleteAll using hive'});
     }
   }
 
