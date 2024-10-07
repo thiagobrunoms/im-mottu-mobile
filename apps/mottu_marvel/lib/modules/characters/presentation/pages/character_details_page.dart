@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mottu_marvel/modules/characters/presentation/pages/characters_details_page_controller.dart';
 import 'package:mottu_design_system/mottu_design_system.dart';
+import 'package:mottu_marvel/modules/characters/presentation/widgets/characters_list.dart';
 
 import '../widgets/character_item.dart';
 import '../widgets/characters_page_progress_indicator.dart';
@@ -28,16 +29,7 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
         ),
       ),
       body: [
-        Obx(() {
-          return SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MottuBody1Text.regular(
-                controller.character.value?.description ?? 'Carregando descrição',
-              ),
-            ),
-          );
-        }),
+        const _CharacterDescription(),
         Obx(
           () {
             if ((controller.marvelResponse.value == null || controller.charactersList.isEmpty) &&
@@ -46,34 +38,10 @@ class _CharacterDetailsPageState extends State<CharacterDetailsPage> {
             }
 
             if (controller.charactersList.isEmpty) {
-              return const SliverFillRemaining(
-                hasScrollBody: false,
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 40.0),
-                    child: MottuBody1Text.bold(
-                      'Não há dados disponíveis',
-                    ),
-                  ),
-                ),
-              );
+              return const _UnavailableCharacterData();
             }
 
-            final List<Widget> charactersList = controller.charactersList
-                .map((eachCharacter) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
-                      child: MarvelCharacterItem(
-                        marvelCharacter: eachCharacter,
-                      ),
-                    ))
-                .toList();
-
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => charactersList[index],
-                childCount: charactersList.length,
-              ),
-            );
+            return CharactersList(characters: controller.charactersList);
           },
         ),
         Obx(() {
@@ -103,6 +71,43 @@ class _CharacterName extends StatelessWidget {
       child: MottuHeading1Text.regular(
         name ?? 'Carregando nome...',
         color: MottuColors.white,
+      ),
+    );
+  }
+}
+
+class _CharacterDescription extends StatelessWidget {
+  const _CharacterDescription({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<CharactersDetailsPageController>();
+
+    return Obx(() => SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: MottuBody1Text.regular(
+              controller.character.value?.description ?? 'Carregando descrição',
+            ),
+          ),
+        ));
+  }
+}
+
+class _UnavailableCharacterData extends StatelessWidget {
+  const _UnavailableCharacterData({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SliverFillRemaining(
+      hasScrollBody: false,
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 40.0),
+          child: MottuBody1Text.bold(
+            'Não há dados disponíveis',
+          ),
+        ),
       ),
     );
   }
