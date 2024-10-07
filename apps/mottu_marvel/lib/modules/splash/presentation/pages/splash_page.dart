@@ -25,11 +25,11 @@ class SplashPage extends StatelessWidget {
               children: [
                 const _SplashScreenLogo(
                   size: 150,
-                  asset: 'assets/images/marvelLogo.png',
+                  asset: MottuImages.marvelLogo,
                 ),
                 const _SplashScreenLogo(
                   size: 150,
-                  asset: 'assets/images/mottuLogo.png',
+                  asset: MottuImages.mottuLogo,
                 ),
                 MottuHeading1Text.regular('${controller.loadingStatus.value}%')
               ],
@@ -48,15 +48,15 @@ class _SplashScreenLogo extends StatelessWidget {
     required this.size,
   });
 
-  final String asset;
+  final MottuImages asset;
   final double size;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: size,
+    return MottuAssetImage(
+      asset,
       width: size,
-      child: Image.asset(asset),
+      height: size,
     );
   }
 }
