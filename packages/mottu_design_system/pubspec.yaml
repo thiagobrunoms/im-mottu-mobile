@@ -28,3 +28,6 @@ flutter:
           weight: 500
         - asset: packages/mottu_design_system/assets/fonts/Roboto-Regular.ttf
           weight: 400
+  assets:
+    - packages/mottu_design_system/assets/images/mottuLogo.png
+    - packages/mottu_design_system/assets/images/marvelLogo.png
