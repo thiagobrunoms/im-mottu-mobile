@@ -30,9 +30,7 @@ class DioCacheInterceptor extends Interceptor {
 
         return handler.resolve(cachedResponse);
       } else {
-        final etag = cacheData['etag'] as String?;
-
-        if (etag != null) {
+        if (cacheData['etag'] case final etag?) {
           options.headers['If-None-Match'] = etag;
           analytics.logEvent('cache', properties: {'etag': etag});
         }
