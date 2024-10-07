@@ -5,6 +5,7 @@ import 'package:mottu_marvel/modules/characters/presentation/pages/characters_pa
 import 'package:mottu_design_system/mottu_design_system.dart';
 
 import '../widgets/character_item.dart';
+import '../widgets/characters_list.dart';
 import '../widgets/characters_page_progress_indicator.dart';
 
 class CharactersPage extends StatefulWidget {
@@ -51,7 +52,9 @@ class _CharactersPageState extends State<CharactersPage> {
               return const _NoResultsFound();
             }
 
-            return const _CharactersList();
+            return CharactersList(
+              characters: controller.filteredCharactersList,
+            );
           },
         ),
         const _PaginationLoading(),
@@ -109,30 +112,6 @@ class _NoResultsFound extends StatelessWidget {
           const SizedBox(height: 10.0),
           ElevatedButton(onPressed: controller.filterCharactersRemotely, child: const MottuBody1Text.bold('SIM'))
         ],
-      ),
-    );
-  }
-}
-
-class _CharactersList extends StatelessWidget {
-  const _CharactersList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = Get.find<CharactersPageController>();
-    final List<Widget> charactersList = controller.filteredCharactersList
-        .map((eachCharacter) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
-              child: MarvelCharacterItem(
-                marvelCharacter: eachCharacter,
-              ),
-            ))
-        .toList();
-
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => charactersList[index],
-        childCount: charactersList.length,
       ),
     );
   }

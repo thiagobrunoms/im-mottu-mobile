@@ -74,6 +74,7 @@ class CharactersPageController extends GetxController {
       //TODO Handle error
     } on MottuHttpException {
       isError.value = true; //ok not reverting for this assessment
+      return;
     }
 
     isFetching.value = false;
